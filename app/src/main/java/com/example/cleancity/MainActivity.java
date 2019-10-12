@@ -1,19 +1,17 @@
 package com.example.cleancity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
             this.getSupportActionBar().hide();
         }
         catch (NullPointerException e){}
-
         setContentView(R.layout.activity_main);
         identifiantInput = (EditText) findViewById(R.id.identifiant);
         passwordInput = findViewById(R.id.password);
         relativeLayout = findViewById(R.id.relativeAuth);
+
+        Toast.makeText(MainActivity.this, "Reason can not be blank", Toast.LENGTH_SHORT).show();
 //        progressBar = findViewById(R.id.progressBar);
 //        loadQrCode = (TextView) findViewById(R.id.qr_code_button);
 //       loadQrCode.setOnClickListener(new View.OnClickListener() {
@@ -55,17 +54,32 @@ public class MainActivity extends AppCompatActivity {
                 if(!identifiantInput.getText().toString().trim().isEmpty() && !passwordInput.getText().toString().trim().isEmpty()){
                     // test if this identifiant id in the data base
                     lunchMapsActivity();
+//                    postToastMessage("hello world");
                     Log.i("toast","affichage toast");
                     Toast.makeText(getApplicationContext(),"Connexion ...",Toast.LENGTH_SHORT).show();
                 }else{
                     //toast message to informe that the identifiant is empty
                     Log.i("toast","affichage toast veuillz entre ...");
+//                    postToastMessage("hello world");
                     Toast.makeText(getApplicationContext(),"Veuillez entrer l'identifiant ou le mot de passe.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Reason can not be blank", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
     }
+
+//    public void postToastMessage(final String message) {
+//        Handler handler = new Handler(Looper.getMainLooper());
+//
+//        handler.post(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                Toast.makeText(, message, Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
     private void lunchMapsActivity() {
         Intent intent = new Intent(getApplicationContext(),Home.class);

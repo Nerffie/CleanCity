@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/White">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -35,14 +34,51 @@
                 android:id="@+id/poubelle_list_map" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
-            android:id="@+id/footer_bar">
+            android:layout_weight="10">
 
-        </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                app:cardElevation="2dp"
+                app:cardCornerRadius="5dp"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="20dp"
+                app:cardBackgroundColor="#4CAF50"
+                >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/footer_bar">
+
+                    <TextView
+                        android:id="@+id/nbPoubelle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="#00FFFF"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+
+
 
 
     </LinearLayout>

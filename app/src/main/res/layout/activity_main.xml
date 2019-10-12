@@ -7,94 +7,134 @@
     tools:context=".MainActivity">
 
 
-    <RelativeLayout
-        android:id="@+id/relativeAuth"
-        android:layout_width="500dp"
-        android:layout_height="250dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="#4CAF50"></RelativeLayout>
+    </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/viewCard"
+        android:layout_width="322dp"
+        android:layout_height="450dp"
+        android:layout_marginTop="20dp"
+        app:cardElevation="5dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp">
+        app:cardCornerRadius="10dp"
+        android:background="@color/cardview_light_background">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
 
-        <EditText
-            android:id="@+id/identifiant"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:hint="Identifiant de conducteur"
-            android:maxLines="1" />
+            app:srcCompat="@drawable/logo" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/identifiant"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="Mot de passe"
-            android:inputType="textPassword"
-            android:maxLines="1" />
+        <RelativeLayout
+            android:id="@+id/relativeAuth"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="250dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/qr_code_card"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_below="@id/password"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="#4CAF50"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+            <EditText
+                android:id="@+id/identifiant"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:hint="Identifiant de conducteur"
+                android:maxLines="1" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/identifiant"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="Mot de passe"
+                android:inputType="textPassword"
+                android:maxLines="1" />
 
-                <TextView
-                    android:id="@+id/qr_code_button"
+            <!--        <androidx.cardview.widget.CardView-->
+            <!--            android:id="@+id/qr_code_card"-->
+            <!--            android:layout_width="300dp"-->
+            <!--            android:layout_height="40dp"-->
+            <!--            android:layout_below="@id/password"-->
+            <!--            android:layout_centerHorizontal="true"-->
+            <!--            android:layout_marginTop="10dp"-->
+            <!--            app:cardBackgroundColor="#4CAF50"-->
+            <!--            app:cardCornerRadius="8dp"-->
+            <!--            app:cardElevation="5dp">-->
+
+            <!--            <RelativeLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent">-->
+
+            <!--                <TextView-->
+            <!--                    android:id="@+id/qr_code_button"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:text="Scanner identifiant"-->
+            <!--                    android:textColor="#ffffff"-->
+            <!--                    android:textSize="20sp" />-->
+            <!--            </RelativeLayout>-->
+            <!--        </androidx.cardview.widget.CardView>-->
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/confirm_card"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/password"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="0dp"
+                app:cardBackgroundColor="#4CAF50"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="5dp">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Scanner identifiant"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/confirm_card"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/qr_code_card"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="#4CAF50"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="5dp">
+                    <TextView
+                        android:id="@+id/confirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Confirmer"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/confirm"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Confirmer"
-                    android:textColor="#ffffff"
-                    android:textSize="20sp" />
-            </RelativeLayout>
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/viewCard"
+        android:layout_alignParentBottom="true"
+        android:maxHeight="120dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="440dp"
-        android:visibility="invisible" />
+        android:layout_marginHorizontal="5dp"
+        app:srcCompat="@drawable/bottom" />
 
 </RelativeLayout>

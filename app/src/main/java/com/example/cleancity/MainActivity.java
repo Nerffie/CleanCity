@@ -22,37 +22,44 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordInput;
     private TextView confirmation;
     private RelativeLayout relativeLayout;
-    private ProgressBar progressBar;
+//    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try
+        {
+            this.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){}
+
         setContentView(R.layout.activity_main);
-       identifiantInput = (EditText) findViewById(R.id.identifiant);
+        identifiantInput = (EditText) findViewById(R.id.identifiant);
         passwordInput = findViewById(R.id.password);
         relativeLayout = findViewById(R.id.relativeAuth);
-      progressBar = findViewById(R.id.progressBar);
-     //   loadQrCode = (TextView) findViewById(R.id.qr_code_button);
-    //   loadQrCode.setOnClickListener(new View.OnClickListener() {
+//        progressBar = findViewById(R.id.progressBar);
+//        loadQrCode = (TextView) findViewById(R.id.qr_code_button);
+//       loadQrCode.setOnClickListener(new View.OnClickListener() {
 ////           @Override
 ////            public void onClick(View v) {
 //////                Intent intent = new Intent(v.getContext(),ScanCodeActivity.class);
 //////                startActivityForResult(intent,100);
 ////            }
 ////        });
-//
-       confirmation = (TextView) findViewById(R.id.confirm);
+
+        confirmation = (TextView) findViewById(R.id.confirm);
         confirmation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //test if identifiant field is not empty
                 if(!identifiantInput.getText().toString().trim().isEmpty() && !passwordInput.getText().toString().trim().isEmpty()){
                     // test if this identifiant id in the data base
-//                    getPolicierData(identifiantInput.getText().toString(),passwordInput.getText().toString());
-                       lunchMapsActivity();
+                    lunchMapsActivity();
+                    Log.i("toast","affichage toast");
                     Toast.makeText(getApplicationContext(),"Connexion ...",Toast.LENGTH_SHORT).show();
                 }else{
                     //toast message to informe that the identifiant is empty
+                    Log.i("toast","affichage toast veuillz entre ...");
                     Toast.makeText(getApplicationContext(),"Veuillez entrer l'identifiant ou le mot de passe.",Toast.LENGTH_SHORT).show();
                 }
             }

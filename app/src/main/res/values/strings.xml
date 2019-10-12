@@ -2,5 +2,6 @@
     <string name="app_name">CleanCity</string>
     <string name="title_activity_map">Map</string>
     <string name="intent_poubelle_list">intent_poubelle_list</string>
+    <string name="intent_poubelle_locations">intent_poubelle_locations</string>
 
 </resources>

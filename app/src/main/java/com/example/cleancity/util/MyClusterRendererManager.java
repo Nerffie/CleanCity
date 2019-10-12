@@ -22,12 +22,9 @@ public class MyClusterRendererManager extends DefaultClusterRenderer<ClusterMark
     private final int markerWidth;
     private final int markerHeight;
 
-    public MyClusterRendererManager(Context context, GoogleMap map, ClusterManager<ClusterMarker> clusterManager, IconGenerator iconGenerator, ImageView image, int markerWidth, int markerHeight) {
+    public MyClusterRendererManager(Context context, GoogleMap map, ClusterManager<ClusterMarker> clusterManager) {
         super(context, map, clusterManager);
-        this.iconGenerator = iconGenerator;
-        this.imageView = image;
-        this.markerWidth = markerWidth;
-        this.markerHeight = markerHeight;
+
 
         iconGenerator = new IconGenerator(context.getApplicationContext());
         imageView = new ImageView(context.getApplicationContext());

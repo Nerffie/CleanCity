@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void lunchMapsActivity() {
-        Intent intent = new Intent(getApplicationContext(),Map.class);
+        Intent intent = new Intent(getApplicationContext(),Home.class);
         Toast.makeText(getApplicationContext(),"Bienvenu "+identifiantInput.getText().toString().trim().isEmpty()+" .",Toast.LENGTH_SHORT).show();
-     startActivityForResult(intent,150);
+        startActivity(intent);
     }
 
 //    @Override

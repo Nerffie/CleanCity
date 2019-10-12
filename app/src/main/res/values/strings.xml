@@ -3,5 +3,7 @@
     <string name="title_activity_map">Map</string>
     <string name="intent_poubelle_list">intent_poubelle_list</string>
     <string name="intent_poubelle_locations">intent_poubelle_locations</string>
+    <string name="intent_user_location">user_location</string>
+    <string name="intent_user">user</string>
 
 </resources>

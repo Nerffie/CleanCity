@@ -23,6 +23,7 @@ import com.example.cleancity.models.ClusterMarker;
 import com.example.cleancity.models.Poubelle;
 import com.example.cleancity.models.PoubelleLocation;
 import com.example.cleancity.models.User;
+import com.example.cleancity.models.UserLocation;
 import com.example.cleancity.util.MyClusterRendererManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -52,11 +53,13 @@ public class Map extends Fragment implements OnMapReadyCallback {
     //vars
     private ArrayList<Poubelle> mPoubelleListe = new ArrayList<>();
     private ArrayList<PoubelleLocation> mPoubelleLocations = new ArrayList<>();
-    //private UserRecyclerAdapter mUserRecyclerAdapter;
+
+   private User mUser;
+   private UserLocation mUserLocation;
 
     private GoogleMap mGoogleMap;
     private LatLngBounds mMapBoundary;
-    private PoubelleLocation mPoubelleLocation;
+
 
     private ClusterManager mClusterManager;
     private MyClusterRendererManager mClusterManagerRenderer;
@@ -72,6 +75,8 @@ public class Map extends Fragment implements OnMapReadyCallback {
         if (getArguments() != null) {
             mPoubelleListe = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_list));
             mPoubelleLocations = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_locations));
+            mUser = getArguments().getParcelable(getString(R.string.intent_user));
+            mUserLocation = getArguments().getParcelable(getString(R.string.intent_user_location));
         }
     }
 
@@ -173,6 +178,15 @@ public class Map extends Fragment implements OnMapReadyCallback {
                 }
 
             }
+            /*ClusterMarker newClusterMarker = new ClusterMarker(
+                    new LatLng(mUserLocation.getLat(), mUserLocation.getLon()),
+                    "Camion éboueur",
+                    mUser.getName(),
+                    R.drawable.eboueur,
+                    mPoubelleLocations.get(0).getPoubelle()
+            );
+            mClusterManager.addItem(newClusterMarker);
+            mClusterMarkers.add(newClusterMarker);*/
             mClusterManager.cluster();
 
             setCameraView();

@@ -2,8 +2,6 @@ package com.example.cleancity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordInput;
     private TextView confirmation;
     private RelativeLayout relativeLayout;
-//    private ProgressBar progressBar;
+    String message="";
+    Thread myThread = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +34,13 @@ public class MainActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.password);
         relativeLayout = findViewById(R.id.relativeAuth);
 
+        Runnable runnable = new MainActivity.CountDownRunner();
+
+        myThread= new Thread(runnable);
+
+
         Toast.makeText(MainActivity.this, "Reason can not be blank", Toast.LENGTH_SHORT).show();
-//        progressBar = findViewById(R.id.progressBar);
-//        loadQrCode = (TextView) findViewById(R.id.qr_code_button);
-//       loadQrCode.setOnClickListener(new View.OnClickListener() {
-////           @Override
-////            public void onClick(View v) {
-//////                Intent intent = new Intent(v.getContext(),ScanCodeActivity.class);
-//////                startActivityForResult(intent,100);
-////            }
-////        });
+
 
         confirmation = (TextView) findViewById(R.id.confirm);
         confirmation.setOnClickListener(new View.OnClickListener() {
@@ -54,13 +50,11 @@ public class MainActivity extends AppCompatActivity {
                 if(!identifiantInput.getText().toString().trim().isEmpty() && !passwordInput.getText().toString().trim().isEmpty()){
                     // test if this identifiant id in the data base
                     lunchMapsActivity();
-//                    postToastMessage("hello world");
                     Log.i("toast","affichage toast");
-                    Toast.makeText(getApplicationContext(),"Connexion ...",Toast.LENGTH_SHORT).show();
+
                 }else{
                     //toast message to informe that the identifiant is empty
-                    Log.i("toast","affichage toast veuillz entre ...");
-//                    postToastMessage("hello world");
+                    Log.i("toast","affichage toast veuillez entre ...");
                     Toast.makeText(getApplicationContext(),"Veuillez entrer l'identifiant ou le mot de passe.",Toast.LENGTH_SHORT).show();
                     Toast.makeText(MainActivity.this, "Reason can not be blank", Toast.LENGTH_SHORT).show();
                 }
@@ -69,22 +63,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    public void postToastMessage(final String message) {
-//        Handler handler = new Handler(Looper.getMainLooper());
-//
-//        handler.post(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                Toast.makeText(, message, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
-    private void lunchMapsActivity() {
+    private void lunchMapsActivity(){
         Intent intent = new Intent(getApplicationContext(),Home.class);
-        Toast.makeText(getApplicationContext(),"Bienvenu "+identifiantInput.getText().toString().trim().isEmpty()+" .",Toast.LENGTH_SHORT).show();
+        myThread.start();
         startActivity(intent);
+    }
+
+    public void doWork() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                try{
+                    Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+                }catch (Exception e) {}
+            }
+        });
+    }
+
+    class CountDownRunner implements Runnable{
+        @Override
+        public void run() {
+            if(!Thread.currentThread().isInterrupted()){
+                try {
+                    doWork();
+                } catch(Exception e){
+                    Log.e("thread Erreur",e.getMessage());
+                }
+            }
+        }
     }
 
 //    @Override

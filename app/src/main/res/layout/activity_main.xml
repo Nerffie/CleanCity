@@ -42,7 +42,7 @@
             android:layout_below="@id/password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="#ED655B"
+            app:cardBackgroundColor="#4CAF50"
             app:cardCornerRadius="8dp"
             app:cardElevation="5dp">
 
@@ -68,7 +68,7 @@
             android:layout_below="@+id/qr_code_card"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="#ED655B"
+            app:cardBackgroundColor="#4CAF50"
             app:cardCornerRadius="8dp"
             app:cardElevation="5dp">
 

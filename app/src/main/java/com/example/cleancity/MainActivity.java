@@ -28,42 +28,42 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        identifiantInput = (EditText) findViewById(R.id.identifiant);
-//        passwordInput = findViewById(R.id.password);
-//        relativeLayout = findViewById(R.id.relativeAuth);
-//        progressBar = findViewById(R.id.progressBar);
-////        loadQrCode = (TextView) findViewById(R.id.qr_code_button);
-////        loadQrCode.setOnClickListener(new View.OnClickListener() {
-////            @Override
+       identifiantInput = (EditText) findViewById(R.id.identifiant);
+        passwordInput = findViewById(R.id.password);
+        relativeLayout = findViewById(R.id.relativeAuth);
+      progressBar = findViewById(R.id.progressBar);
+     //   loadQrCode = (TextView) findViewById(R.id.qr_code_button);
+    //   loadQrCode.setOnClickListener(new View.OnClickListener() {
+////           @Override
 ////            public void onClick(View v) {
 //////                Intent intent = new Intent(v.getContext(),ScanCodeActivity.class);
 //////                startActivityForResult(intent,100);
 ////            }
 ////        });
 //
-//        confirmation = (TextView) findViewById(R.id.confirm);
-//        confirmation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //test if identifiant field is not empty
-//                if(!identifiantInput.getText().toString().trim().isEmpty() && !passwordInput.getText().toString().trim().isEmpty()){
-//                    // test if this identifiant id in the data base
-////                    getPolicierData(identifiantInput.getText().toString(),passwordInput.getText().toString());
-//                        lunchMapsActivity();
-//                    Toast.makeText(getApplicationContext(),"Connexion ...",Toast.LENGTH_SHORT).show();
-//                }else{
-//                    //toast message to informe that the identifiant is empty
-//                    Toast.makeText(getApplicationContext(),"Veuillez entrer l'identifiant ou le mot de passe.",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+       confirmation = (TextView) findViewById(R.id.confirm);
+        confirmation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //test if identifiant field is not empty
+                if(!identifiantInput.getText().toString().trim().isEmpty() && !passwordInput.getText().toString().trim().isEmpty()){
+                    // test if this identifiant id in the data base
+//                    getPolicierData(identifiantInput.getText().toString(),passwordInput.getText().toString());
+                       lunchMapsActivity();
+                    Toast.makeText(getApplicationContext(),"Connexion ...",Toast.LENGTH_SHORT).show();
+                }else{
+                    //toast message to informe that the identifiant is empty
+                    Toast.makeText(getApplicationContext(),"Veuillez entrer l'identifiant ou le mot de passe.",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
     private void lunchMapsActivity() {
-//        Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
+        Intent intent = new Intent(getApplicationContext(),Map.class);
         Toast.makeText(getApplicationContext(),"Bienvenu "+identifiantInput.getText().toString().trim().isEmpty()+" .",Toast.LENGTH_SHORT).show();
-//        startActivityForResult(intent,150);
+     startActivityForResult(intent,150);
     }
 
 //    @Override

@@ -1,11 +1,11 @@
 package com.example.cleancity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
+
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,51 +15,59 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cleancity.R;
+import androidx.fragment.app.Fragment;
+
 import com.example.cleancity.models.ClusterMarker;
 import com.example.cleancity.models.Poubelle;
 import com.example.cleancity.models.PoubelleLocation;
-import com.example.cleancity.models.User;
-import com.example.cleancity.models.UserLocation;
+
 import com.example.cleancity.util.MyClusterRendererManager;
+
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Marker;
+
+
+import com.google.maps.GeoApiContext;
+
+
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 
 import lombok.NonNull;
 
-import static androidx.core.content.ContextCompat.getSystemService;
+
 import static com.example.cleancity.Constants.MAPVIEW_BUNDLE_KEY;
 
-public class Map extends Fragment implements OnMapReadyCallback {
+public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "PoubelleListFragment";
 
     //widgets
-    //private RecyclerView mUserListRecyclerView;
+
     private MapView mMapView;
+
 
 
     //vars
     private ArrayList<Poubelle> mPoubelleListe = new ArrayList<>();
     private ArrayList<PoubelleLocation> mPoubelleLocations = new ArrayList<>();
 
-   private User mUser;
-   private UserLocation mUserLocation;
+
+
 
     private GoogleMap mGoogleMap;
     private LatLngBounds mMapBoundary;
 
+    private GeoApiContext mGeoApiContext;
 
     private ClusterManager mClusterManager;
     private MyClusterRendererManager mClusterManagerRenderer;
@@ -75,35 +83,26 @@ public class Map extends Fragment implements OnMapReadyCallback {
         if (getArguments() != null) {
             mPoubelleListe = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_list));
             mPoubelleLocations = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_locations));
-            mUser = getArguments().getParcelable(getString(R.string.intent_user));
-            mUserLocation = getArguments().getParcelable(getString(R.string.intent_user_location));
         }
     }
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_list, container, false);
-        //mUserListRecyclerView = view.findViewById(R.id.user_list_recycler_view);
         mMapView = view.findViewById(R.id.poubelle_list_map);
-
-        initUserListRecyclerView();
-
         initGoogleMap(savedInstanceState);
-
-        for (PoubelleLocation poubelleLocation : mPoubelleLocations){
-            Log.d(TAG,poubelleLocation.getPoubelle().getId()+ "OnCreateView : Poubelle Location :"+poubelleLocation.getLat()+" "+poubelleLocation.getLon());
-        }
-
         return view;
     }
 
     private void setCameraView(){
 
-        double bottomBoundary = mPoubelleLocations.get(0).getLat()-.1;
-        double leftBoundary = mPoubelleLocations.get(0).getLon()-.1;
-        double topBoundary = mPoubelleLocations.get(0).getLat()+.1;
-        double rightBoundary = mPoubelleLocations.get(0).getLon()+.1;
+        double bottomBoundary = mPoubelleLocations.get(4).getLat()-0.01;
+        double leftBoundary = mPoubelleLocations.get(4).getLon()-0.01;
+        double topBoundary = mPoubelleLocations.get(4).getLat()+0.01;
+        double rightBoundary = mPoubelleLocations.get(4).getLon()+0.01;
 
         mMapBoundary = new LatLngBounds(
                 new LatLng(bottomBoundary, leftBoundary),
@@ -125,12 +124,15 @@ public class Map extends Fragment implements OnMapReadyCallback {
         mMapView.onCreate(mapViewBundle);
 
         mMapView.getMapAsync(this);
-    }
 
-    private void initUserListRecyclerView() {
-        //mUserRecyclerAdapter = new UserRecyclerAdapter(mUserList);
-        //mUserListRecyclerView.setAdapter(mUserRecyclerAdapter);
-        //mUserListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+
+        if(mGeoApiContext == null){
+            mGeoApiContext = new GeoApiContext.Builder()
+                    .apiKey(getString(R.string.google_maps_key))
+                    .build();
+        }
     }
 
     private void addMapMarkers(){
@@ -154,18 +156,14 @@ public class Map extends Fragment implements OnMapReadyCallback {
                 try{
                     String snippet = "";
 
-                    snippet = "Poubelle numéro #" + poubelleLocation.getPoubelle().getId();
+                    snippet = poubelleLocation.getPoubelle().getEtat();
 
 
                     int avatar = R.drawable.poubelle; // set the default avatar
-                    /*try{
-                        avatar = Integer.parseInt(poubelleLocation.getUser().getAvatar());
-                    }catch (NumberFormatException e){
-                        Log.d(TAG, "addMapMarkers: no avatar for " + userLocation.getUser().getUsername() + ", setting default.");
-                    }*/
+
                     ClusterMarker newClusterMarker = new ClusterMarker(
                             new LatLng(poubelleLocation.getLat(), poubelleLocation.getLon()),
-                            poubelleLocation.getPoubelle().getEtat(),
+                             String.valueOf(poubelleLocation.getPoubelle().getId()),
                             snippet,
                             avatar,
                             poubelleLocation.getPoubelle()
@@ -178,15 +176,8 @@ public class Map extends Fragment implements OnMapReadyCallback {
                 }
 
             }
-            /*ClusterMarker newClusterMarker = new ClusterMarker(
-                    new LatLng(mUserLocation.getLat(), mUserLocation.getLon()),
-                    "Camion éboueur",
-                    mUser.getName(),
-                    R.drawable.eboueur,
-                    mPoubelleLocations.get(0).getPoubelle()
-            );
-            mClusterManager.addItem(newClusterMarker);
-            mClusterMarkers.add(newClusterMarker);*/
+
+
             mClusterManager.cluster();
 
             setCameraView();
@@ -199,13 +190,11 @@ public class Map extends Fragment implements OnMapReadyCallback {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
         if (mapViewBundle == null) {
             mapViewBundle = new Bundle();
             outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
         }
-
         mMapView.onSaveInstanceState(mapViewBundle);
     }
 
@@ -235,10 +224,12 @@ public class Map extends Fragment implements OnMapReadyCallback {
                 != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
+
         map.setMyLocationEnabled(true);
-        //map.addMarker(new MarkerOptions().position((new LatLng(0,0))).title("Marker"));
+        map.getCameraPosition();
         mGoogleMap = map;
-        //setCameraView();
+        mGoogleMap.setOnInfoWindowClickListener(this);
         addMapMarkers();
     }
 
@@ -262,4 +253,42 @@ public class Map extends Fragment implements OnMapReadyCallback {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
+
+
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+
+            ClusterMarker current = mClusterMarkers.get(Integer.parseInt(marker.getTitle())-1);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(
+                    "Poubelle # "+current.getTitle()+
+                    "\n\nEtat : "+current.getPoubelle().getEtat()+
+                    "\n\nTempérature : "+current.getPoubelle().getTemp()+" °C"+
+                    "\n\nRemplissage : "+current.getPoubelle().getRempli()+ " %"+
+                    "\n\nTrouver le chemin pour aller ?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            dialog.cancel();
+                        }
+                    });
+            final AlertDialog alert = builder.create();
+            alert.show();
+    }
+
+
+
+
+
+
+
+
 }

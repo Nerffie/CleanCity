@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
+
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+
+import android.widget.TextView;
+import com.example.cleancity.models.Poubelle;
+import com.example.cleancity.models.PoubelleLocation;
+
 import java.util.ArrayList;
+import java.util.Date;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import lombok.NonNull;
 
@@ -40,8 +49,7 @@ import static com.example.cleancity.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.cleancity.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 public class Home extends AppCompatActivity {
-
-
+    private TextView nbPoubelle;
     private ArrayList<PoubelleLocation> mPoubelleLocations = new ArrayList<>();
     private ArrayList<Poubelle> mPoubelle = new ArrayList<>();
     private User mUser;
@@ -59,9 +67,15 @@ public class Home extends AppCompatActivity {
         catch (NullPointerException e){}
 
 
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         getPoubellesLocation();
 
+        Runnable runnable = new CountDownRunner();
+        Thread myThread = null;
+        myThread= new Thread(runnable);
+        myThread.start();
         if (savedInstanceState == null){
             inflatePoubelleListFragment();
         }
@@ -135,6 +149,40 @@ public class Home extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    public void doWork() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                try{
+                    nbPoubelle = (TextView) findViewById(R.id.nbPoubelle);
+                    String str = "Poubelle: 34";
+                    nbPoubelle.setText(str);
+                    TextView txtCurrentTime= (TextView)findViewById(R.id.time);
+                    Date dt = new Date();
+                    int hours = dt.getHours();
+                    int minutes = dt.getMinutes();
+                    int seconds = dt.getSeconds();
+                    String curTime = "Time: "+hours + ":" + minutes + ":" + seconds;
+                    txtCurrentTime.setText(curTime);
+                }catch (Exception e) {}
+            }
+        });
+    }
+
+    class CountDownRunner implements Runnable{
+        // @Override
+        public void run() {
+
+            while(!Thread.currentThread().isInterrupted()){
+                try {
+                    doWork();
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }catch(Exception e){
+                }
+            }
+        }
+    }
 
     private void getLastKnownLocation() {
         Log.d("Home", "getLastKnownLocation: called.");

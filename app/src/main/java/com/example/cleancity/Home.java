@@ -54,6 +54,7 @@ public class Home extends AppCompatActivity {
         Poubelle p6 = new Poubelle(6,18,30,"6","Léger");
         Poubelle p7 = new Poubelle(7,30,89,"7","Pleine");
         Poubelle p8 = new Poubelle(8,14,24,"8","Léger");
+        Poubelle p9 = new Poubelle (9,20,75,"9","Léger");
         PoubelleLocation pl1 = new PoubelleLocation(p1,45.774811, 3.079328);
         PoubelleLocation pl2 = new PoubelleLocation(p2,45.772746, 3.082836);
         PoubelleLocation pl3 = new PoubelleLocation(p3,45.771433, 3.076801);
@@ -62,6 +63,7 @@ public class Home extends AppCompatActivity {
         PoubelleLocation pl6 = new PoubelleLocation(p6,45.771984, 3.090157);
         PoubelleLocation pl7 = new PoubelleLocation(p7,45.765695, 3.089017);
         PoubelleLocation pl8 = new PoubelleLocation(p8,45.767077, 3.097808);
+        PoubelleLocation pl9 = new PoubelleLocation(p9,45.77000,3.085555);
 
 
         mPoubelle.add(p1);
@@ -72,6 +74,7 @@ public class Home extends AppCompatActivity {
         mPoubelle.add(p6);
         mPoubelle.add(p7);
         mPoubelle.add(p8);
+        mPoubelle.add(p9);
         mPoubelleLocations.add(pl1);
         mPoubelleLocations.add(pl2);
         mPoubelleLocations.add(pl3);
@@ -80,7 +83,7 @@ public class Home extends AppCompatActivity {
         mPoubelleLocations.add(pl6);
         mPoubelleLocations.add(pl7);
         mPoubelleLocations.add(pl8);
-
+        mPoubelleLocations.add(pl9);
 
     }
 

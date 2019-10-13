@@ -18,7 +18,6 @@ public class Poubelle implements Parcelable {
     int rempli; // Pourcentage
     String avatar;
     String etat;
-    int origine;
 
     public String getEtat() {
         return etat;
@@ -39,7 +38,6 @@ public class Poubelle implements Parcelable {
         temp = in.readInt();
         rempli = in.readInt();
         avatar = in.readString();
-        origine = in.readInt();
     }
 
     public static final Creator<Poubelle> CREATOR = new Creator<Poubelle>() {
@@ -60,6 +58,5 @@ public class Poubelle implements Parcelable {
         dest.writeInt(temp);
         dest.writeInt(rempli);
         dest.writeString(avatar);
-        dest.writeInt(origine);
     }
 }

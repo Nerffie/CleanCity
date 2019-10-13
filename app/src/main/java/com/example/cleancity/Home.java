@@ -24,6 +24,7 @@ public class Home extends AppCompatActivity {
     private TextView nbPoubelle;
     private ArrayList<PoubelleLocation> mPoubelleLocations = new ArrayList<>();
     private ArrayList<Poubelle> mPoubelle = new ArrayList<>();
+    private ArrayList<Signal> mSignal = new ArrayList<>();
     private boolean vider = false;
     private ImageView bell;
 
@@ -101,6 +102,7 @@ public class Home extends AppCompatActivity {
         bundle.putInt("compteur",countPoubelleAVider());
         bundle.putParcelableArrayList(getString(R.string.intent_poubelle_list), mPoubelle);
         bundle.putParcelableArrayList(getString(R.string.intent_poubelle_locations), mPoubelleLocations);
+        bundle.putParcelableArrayList("intent_signal_list",mSignal);
         fragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
@@ -172,12 +174,11 @@ public class Home extends AppCompatActivity {
             if(resultCode == 2000){
                 //parse in new object
                 Log.i("data","data returned");
-                Signal signal = (Signal) data.getExtras().getSerializable("identifiant");
-                Poubelle poubelle = new Poubelle(10,-1,-1,"","");
-                PoubelleLocation poubelleLocation = new PoubelleLocation(poubelle,signal.getLat(),signal.getLon());
-
-                mPoubelle.add(poubelle);
-                mPoubelleLocations.add(poubelleLocation);
+                Signal signal = (Signal) data.getExtras().getParcelable("identifiant");
+                //Poubelle poubelle = new Poubelle(10,-1,-1,"","");
+                //PoubelleLocation poubelleLocation = new PoubelleLocation(poubelle,signal.getLat(),signal.getLon());
+                Log.d("RESULT",signal.toString());
+                mSignal.add(signal);
                 inflatePoubelleListFragment();
 
             }

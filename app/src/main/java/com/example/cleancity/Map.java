@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 import com.example.cleancity.models.ClusterMarker;
 import com.example.cleancity.models.Poubelle;
 import com.example.cleancity.models.PoubelleLocation;
+import com.example.cleancity.models.Signal;
 import com.example.cleancity.util.MyClusterRendererManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,6 +48,7 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
     //vars
     private ArrayList<Poubelle> mPoubelleListe = new ArrayList<>();
     private ArrayList<PoubelleLocation> mPoubelleLocations = new ArrayList<>();
+    private ArrayList<Signal> mSignalListe = new ArrayList<>();
 
 
 
@@ -71,6 +73,7 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
             mPoubelleListe = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_list));
             mPoubelleLocations = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_locations));
             compteur = getArguments().getInt("compteur");
+            mSignalListe = getArguments().getParcelableArrayList("intent_signal_list");
         }
     }
 
@@ -138,7 +141,7 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
 
 
                     String snippet = poubelleLocation.getPoubelle().getEtat();
-                    int avatar = R.drawable.poubelle; // set the default avatar
+                    int avatar;
 
                     if (poubelleLocation.getPoubelle().getRempli()>80 || poubelleLocation.getPoubelle().getTemp()>40){
                         avatar = R.drawable.poubelle_rouge; // set the default avatar
@@ -165,6 +168,47 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
                 }
 
             }
+
+            for(Signal signal: mSignalListe){
+
+                //Log.d(TAG, "addMapMarkers: location: " + poubelleLocation.getLon()+" "+poubelleLocation.getLat());
+                try{
+
+
+                    String snippet = "Alerte Utilisateur";
+                    int avatar ;
+
+
+
+                    //int id= 0;
+
+                        avatar = R.drawable.class.getField(signal.getPhoto()).getInt(null);
+
+                    //this.photo.setImageResource(id);
+
+
+                    ClusterMarker newClusterMarker = new ClusterMarker(
+                            new LatLng(signal.getLat(), signal.getLon()),
+                            String.valueOf(signal.getType()),
+                            snippet,
+                            avatar,
+                            null
+                    );
+                    mClusterManager.addItem(newClusterMarker);
+                    mClusterMarkers.add(newClusterMarker);
+
+                }catch (NullPointerException e){
+                    Log.e(TAG, "addMapMarkers: NullPointerException: " + e.getMessage() );
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
+
 
 
             mClusterManager.cluster();

@@ -28,7 +28,7 @@ public class BellActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        myAdapter = new MyAdapter();
+        myAdapter = new MyAdapter(this);
         recyclerView.setAdapter(myAdapter);
 
 //        myAdapter= new MyAdapter();

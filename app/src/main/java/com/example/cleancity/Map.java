@@ -5,46 +5,31 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-
-import androidx.fragment.app.Fragment;
-
 import com.example.cleancity.models.ClusterMarker;
 import com.example.cleancity.models.Poubelle;
 import com.example.cleancity.models.PoubelleLocation;
-
 import com.example.cleancity.util.MyClusterRendererManager;
-
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
-
-
-import com.google.maps.GeoApiContext;
-
-
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import lombok.NonNull;
-
 
 import static com.example.cleancity.Constants.MAPVIEW_BUNDLE_KEY;
 

@@ -152,14 +152,22 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
 
             for(PoubelleLocation poubelleLocation: mPoubelleLocations){
 
-                Log.d(TAG, "addMapMarkers: location: " + poubelleLocation.getLon()+" "+poubelleLocation.getLat());
+                //Log.d(TAG, "addMapMarkers: location: " + poubelleLocation.getLon()+" "+poubelleLocation.getLat());
                 try{
-                    String snippet = "";
-
-                    snippet = poubelleLocation.getPoubelle().getEtat();
 
 
+                    String snippet = poubelleLocation.getPoubelle().getEtat();
                     int avatar = R.drawable.poubelle; // set the default avatar
+
+                    if (poubelleLocation.getPoubelle().getRempli()>80 || poubelleLocation.getPoubelle().getTemp()>40){
+                        avatar = R.drawable.poubelle_rouge; // set the default avatar
+                    }
+                    else if(poubelleLocation.getPoubelle().getRempli()>60 || poubelleLocation.getPoubelle().getTemp()>30){
+                        avatar = R.drawable.poubelle_orange; // set the default avatar
+                    }
+                    else{
+                        avatar = R.drawable.poubelle_verte;
+                    }
 
                     ClusterMarker newClusterMarker = new ClusterMarker(
                             new LatLng(poubelleLocation.getLat(), poubelleLocation.getLon()),

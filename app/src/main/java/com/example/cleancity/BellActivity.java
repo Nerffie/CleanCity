@@ -18,6 +18,11 @@ public class BellActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try
+        {
+            this.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){}
         setContentView(R.layout.activity_bell);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerSignal);
         recyclerView.setHasFixedSize(true);

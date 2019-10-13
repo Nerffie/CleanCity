@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import com.example.cleancity.models.ClusterMarker;
 import com.example.cleancity.models.Poubelle;
@@ -53,6 +54,8 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
     private GoogleMap mGoogleMap;
     private LatLngBounds mMapBoundary;
 
+    private int compteur;
+
     private ClusterManager mClusterManager;
     private MyClusterRendererManager mClusterManagerRenderer;
     private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
@@ -67,9 +70,40 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
         if (getArguments() != null) {
             mPoubelleListe = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_list));
             mPoubelleLocations = getArguments().getParcelableArrayList(getString(R.string.intent_poubelle_locations));
+            compteur = getArguments().getInt("compteur");
         }
     }
 
+    private void showPopup(){
+        View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+
+        PopupWindow popupWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+        // Example: If you have a TextView inside `popup_layout.xml`
+        TextView tv = (TextView) popupView.findViewById(R.id.tv);
+
+        tv.setText(....);
+
+        // Initialize more widgets from `popup_layout.xml`
+    ....
+    ....
+
+        // If the PopupWindow should be focusable
+        popupWindow.setFocusable(true);
+
+        // If you need the PopupWindow to dismiss when when touched outside
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+
+        int location[] = new int[2];
+
+        // Get the View's(the one that was clicked in the Fragment) location
+        anchorView.getLocationOnScreen(location);
+
+        // Using location, the PopupWindow will be displayed right under anchorView
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
+                location[0], location[1] + anchorView.getHeight());
+    }
 
 
     @Nullable

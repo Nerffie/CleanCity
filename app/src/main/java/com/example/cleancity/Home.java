@@ -2,6 +2,7 @@ package com.example.cleancity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -93,6 +94,7 @@ public class Home extends AppCompatActivity {
         hideSoftKeyboard();
         Map fragment = Map.newInstance();
         Bundle bundle = new Bundle();
+        bundle.putInt("compteur",countPoubelleAVider());
         bundle.putParcelableArrayList(getString(R.string.intent_poubelle_list), mPoubelle);
         bundle.putParcelableArrayList(getString(R.string.intent_poubelle_locations), mPoubelleLocations);
         fragment.setArguments(bundle);
@@ -104,6 +106,16 @@ public class Home extends AppCompatActivity {
 
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    private int countPoubelleAVider(){
+        int compteur=0;
+        for (Poubelle poubelle : mPoubelle){
+            if (poubelle.getTemp()>40 || poubelle.getRempli()>80){
+                compteur++;
+            }
+        }
+        return compteur;
     }
 
     public void doWork() {
@@ -119,10 +131,10 @@ public class Home extends AppCompatActivity {
                           }
                       });
 
-                      nbPoubelle = (TextView) findViewById(R.id.nbPoubelle);
-                      String str = "Poubelle : "+mPoubelle.size();
+                      nbPoubelle = findViewById(R.id.nbPoubelle);
+                      String str = "Poubelle à vider : "+countPoubelleAVider();
                       nbPoubelle.setText(str);
-                      TextView txtCurrentTime= (TextView)findViewById(R.id.time);
+                      TextView txtCurrentTime= findViewById(R.id.time);
                       Date dt = new Date();
                       int hours = dt.getHours();
                       int minutes = dt.getMinutes();
@@ -135,7 +147,7 @@ public class Home extends AppCompatActivity {
     }
 
     class CountDownRunner implements Runnable{
-        // @Override
+
         public void run() {
 
             while(!Thread.currentThread().isInterrupted()){

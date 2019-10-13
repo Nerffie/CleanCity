@@ -10,12 +10,13 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @ToString
-public class Signal {
+public class Signal{
     int id;
-    int lat;
-    int lon;
+    String lat;
+    String lon;
+    String photo;
     String type;
     String desc;
-    Date date;
-    int idUser;
+    String date;
+//    int idUser;
 }

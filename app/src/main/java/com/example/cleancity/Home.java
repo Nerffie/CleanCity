@@ -120,8 +120,6 @@ public class Home extends AppCompatActivity {
                       nbPoubelle = (TextView) findViewById(R.id.nbPoubelle);
                       String str = "Poubelle : "+mPoubelle.size();
                       nbPoubelle.setText(str);
-
-
                       TextView txtCurrentTime= (TextView)findViewById(R.id.time);
                       Date dt = new Date();
                       int hours = dt.getHours();

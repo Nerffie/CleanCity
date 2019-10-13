@@ -9,6 +9,7 @@ public class ClusterMarker implements ClusterItem {
     private String snippet;
     private int iconPicture;
     private Poubelle poubelle;
+    //private int origine;
 
     public ClusterMarker(LatLng position, String title, String snippet, int iconPicture, Poubelle poubelle) {
         this.position = position;
@@ -16,7 +17,10 @@ public class ClusterMarker implements ClusterItem {
         this.snippet = snippet;
         this.iconPicture = iconPicture;
         this.poubelle = poubelle;
+        //this.origine = origine;
     }
+
+
 
     public ClusterMarker() {
 

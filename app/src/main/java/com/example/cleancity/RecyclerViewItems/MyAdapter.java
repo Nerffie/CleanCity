@@ -30,13 +30,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolderItem> {
 
     private void setSignals() {
         signals = new ArrayList<>();
-        signals.add(new Signal(1,45.782568, 3.087628,"signal1","toto","Desc 1","12/10/2019"));
-        signals.add(new Signal(2,45.779271, 3.090622,"signal2","toto","Desc 2","12/10/2019"));
-        signals.add(new Signal(3,45.781420, 3.074322,"signal3","toto","Desc 3","12/10/2019"));
-        signals.add(new Signal(4,45.777138, 3.075145,"signal4","toto","Desc 4","12/10/2019"));
-        signals.add(new Signal(5,45.773999, 3.072511,"signal5","toto","Desc 5","12/10/2019"));
-        signals.add(new Signal(6,45.767997, 3.088088,"signal6","toto","Desc 6","12/10/2019"));
-        signals.add(new Signal(7,45.777046, 3.081302,"signal7","toto","Desc 7","12/10/2019"));
+        signals.add(new Signal(1,45.782568, 3.087628,"signal1","Déchets","Cannettes dans la rue","12/10/2019"));
+        signals.add(new Signal(2,45.779271, 3.090622,"signal2","Odeur","La poubelle dégage une mauvaise odeur","12/10/2019"));
+        signals.add(new Signal(3,45.781420, 3.074322,"signal3","Déchets","Saletés par terre","12/10/2019"));
+        signals.add(new Signal(4,45.777138, 3.075145,"signal4","Autre","Feuilles d'arbres partout","12/10/2019"));
+        signals.add(new Signal(5,45.773999, 3.072511,"signal5","Odeur","Odeur du vomi près de chez moi","12/10/2019"));
+        signals.add(new Signal(6,45.767997, 3.088088,"signal6","Déchets","Reste des sandwichs du food truck par terre","12/10/2019"));
+        signals.add(new Signal(7,45.777046, 3.081302,"signal7","Déchets","Mégots près des arbres","12/10/2019"));
     }
 
     @NonNull

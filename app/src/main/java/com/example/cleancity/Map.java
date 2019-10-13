@@ -60,7 +60,9 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
 
     private ClusterManager mClusterManager;
     private MyClusterRendererManager mClusterManagerRenderer;
-    private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
+    private ArrayList<ClusterMarker> mClusterMarkersPoubelle = new ArrayList<>();
+    //private ArrayList<ClusterMarker> mClusterMarkersSignal = new ArrayList<>(20);
+    private ClusterMarker mClusterMarkersSignal[] = new ClusterMarker[20];
 
     public static Map newInstance() {
         return new Map();
@@ -161,7 +163,7 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
                             poubelleLocation.getPoubelle()
                     );
                     mClusterManager.addItem(newClusterMarker);
-                    mClusterMarkers.add(newClusterMarker);
+                    mClusterMarkersPoubelle.add(newClusterMarker);
 
                 }catch (NullPointerException e){
                     Log.e(TAG, "addMapMarkers: NullPointerException: " + e.getMessage() );
@@ -189,13 +191,13 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
 
                     ClusterMarker newClusterMarker = new ClusterMarker(
                             new LatLng(signal.getLat(), signal.getLon()),
-                            String.valueOf(signal.getType()),
+                            String.valueOf(signal.getId()),
                             snippet,
                             avatar,
                             null
                     );
                     mClusterManager.addItem(newClusterMarker);
-                    mClusterMarkers.add(newClusterMarker);
+                    mClusterMarkersSignal[signal.getId()]=newClusterMarker;
 
                 }catch (NullPointerException e){
                     Log.e(TAG, "addMapMarkers: NullPointerException: " + e.getMessage() );
@@ -300,25 +302,44 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
     public void onInfoWindowClick(Marker marker) {
 
 
-            ClusterMarker current = mClusterMarkers.get(Integer.parseInt(marker.getTitle())-1);
+            marker.getSnippet();
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage(
-                    "Poubelle # "+current.getTitle()+
-                    "\n\nEtat : "+current.getPoubelle().getEtat()+
-                    "\n\nTempérature : "+current.getPoubelle().getTemp()+" °C"+
-                    "\n\nRemplissage : "+current.getPoubelle().getRempli()+ " %"+
-                    "\n")
-                    .setCancelable(true)
-                    //.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    //    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                    //        dialog.dismiss();
-                    //    }
-                    //})
-                    .setNegativeButton("Fermer", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                            dialog.cancel();
-                        }
-                    });
+            if (marker.getSnippet().equals("Alerte Utilisateur")) {
+                ClusterMarker current = mClusterMarkersSignal[Integer.parseInt(marker.getTitle())];
+                builder.setMessage(
+                        "Alerte Utilisateur # "+current.getTitle()
+                                )
+                        .setCancelable(true).setNegativeButton("Fermer", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+            }
+
+            else{
+                ClusterMarker current = mClusterMarkersPoubelle.get(Integer.parseInt(marker.getTitle()));
+                    builder.setMessage(
+                            "Poubelle # "+current.getTitle()+
+                                    "\n\nEtat : "+current.getPoubelle().getEtat()+
+                                    "\n\nTempérature : "+current.getPoubelle().getTemp()+" °C"+
+                                    "\n\nRemplissage : "+current.getPoubelle().getRempli()+ " %"+
+                                    "\n")
+                            .setCancelable(true)
+                            //.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            //    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                            //        dialog.dismiss();
+                            //    }
+                            //})
+                            .setNegativeButton("Fermer", new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+            }
+
+
+
             final AlertDialog alert = builder.create();
             alert.show();
     }

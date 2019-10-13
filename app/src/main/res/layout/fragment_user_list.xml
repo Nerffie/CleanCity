@@ -41,7 +41,7 @@
                 app:cardBackgroundColor="#4CAF50"
                 >
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/bell"
                     android:padding="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -32,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 
 
@@ -66,8 +67,6 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
 
     private GoogleMap mGoogleMap;
     private LatLngBounds mMapBoundary;
-
-    private GeoApiContext mGeoApiContext;
 
     private ClusterManager mClusterManager;
     private MyClusterRendererManager mClusterManagerRenderer;
@@ -125,14 +124,6 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
 
         mMapView.getMapAsync(this);
 
-
-
-
-        if(mGeoApiContext == null){
-            mGeoApiContext = new GeoApiContext.Builder()
-                    .apiKey(getString(R.string.google_maps_key))
-                    .build();
-        }
     }
 
     private void addMapMarkers(){
@@ -237,6 +228,12 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
         map.setMyLocationEnabled(true);
         map.getCameraPosition();
         mGoogleMap = map;
+        try{
+            boolean success = mGoogleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this.getActivity(),R.raw.mapstyle));
+            if(!success){
+                Log.e("MAP","Fail to load mapstyle");
+            }
+        }catch(Exception e){}
         mGoogleMap.setOnInfoWindowClickListener(this);
         addMapMarkers();
     }
@@ -276,14 +273,14 @@ public class Map extends Fragment implements OnMapReadyCallback,GoogleMap.OnInfo
                     "\n\nEtat : "+current.getPoubelle().getEtat()+
                     "\n\nTempérature : "+current.getPoubelle().getTemp()+" °C"+
                     "\n\nRemplissage : "+current.getPoubelle().getRempli()+ " %"+
-                    "\n\nTrouver le chemin pour aller ?")
+                    "\n")
                     .setCancelable(true)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    //.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    //    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                    //        dialog.dismiss();
+                    //    }
+                    //})
+                    .setNegativeButton("Fermer", new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                             dialog.cancel();
                         }

@@ -13,8 +13,8 @@ import lombok.ToString;
 @ToString
 public class Signal implements Serializable {
     int id;
-    String lat;
-    String lon;
+    double lat;
+    double lon;
     String photo;
     String type;
     String desc;

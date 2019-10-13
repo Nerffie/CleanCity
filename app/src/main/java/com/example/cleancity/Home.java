@@ -2,7 +2,6 @@ package com.example.cleancity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,6 +26,7 @@ public class Home extends AppCompatActivity {
     private ArrayList<Signal> mSignal = new ArrayList<>();
     private boolean vider = false;
     private ImageView bell;
+    private Thread myThread;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class Home extends AppCompatActivity {
         getPoubellesLocation();
         //doWork();
         Runnable runnable = new CountDownRunner();
-        Thread myThread = null;
+        myThread = null;
         myThread= new Thread(runnable);
         myThread.start();
 
@@ -178,7 +178,11 @@ public class Home extends AppCompatActivity {
                 //Poubelle poubelle = new Poubelle(10,-1,-1,"","");
                 //PoubelleLocation poubelleLocation = new PoubelleLocation(poubelle,signal.getLat(),signal.getLon());
                 Log.d("RESULT",signal.toString());
-                mSignal.add(signal);
+//                mSignal.add(signal);
+//                Runnable runnable = new CountDownRunner();
+//                myThread = null;
+//                myThread= new Thread(runnable);
+//                myThread.start();
                 inflatePoubelleListFragment();
 
             }

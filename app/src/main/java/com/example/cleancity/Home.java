@@ -178,7 +178,7 @@ public class Home extends AppCompatActivity {
                 //Poubelle poubelle = new Poubelle(10,-1,-1,"","");
                 //PoubelleLocation poubelleLocation = new PoubelleLocation(poubelle,signal.getLat(),signal.getLon());
                 Log.d("RESULT",signal.toString());
-//                mSignal.add(signal);
+                mSignal.add(signal);
 //                Runnable runnable = new CountDownRunner();
 //                myThread = null;
 //                myThread= new Thread(runnable);

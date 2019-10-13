@@ -2,6 +2,7 @@ package com.example.cleancity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.example.cleancity.models.PoubelleLocation;
 import java.util.ArrayList;
 import java.util.Date;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -110,7 +112,7 @@ public class Home extends AppCompatActivity {
                           @Override
                           public void onClick(View view) {
                               Intent intent = new Intent(getApplicationContext(),BellActivity.class);
-                              startActivity(intent);
+                              startActivityForResult(intent,100);
                           }
                       });
 
@@ -141,6 +143,16 @@ public class Home extends AppCompatActivity {
                     Thread.currentThread().interrupt();
                 }catch(Exception e){
                 }
+            }
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100){
+            if(resultCode == 2000){
+                //parse in new object
+                Log.i("data","data returned");
             }
         }
     }

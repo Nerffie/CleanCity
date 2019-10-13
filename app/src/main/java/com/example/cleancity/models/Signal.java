@@ -1,6 +1,7 @@
 package com.example.cleancity.models;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @ToString
-public class Signal{
+public class Signal implements Serializable {
     int id;
     String lat;
     String lon;

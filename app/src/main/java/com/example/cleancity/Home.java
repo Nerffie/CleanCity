@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.cleancity.models.Poubelle;
 import com.example.cleancity.models.PoubelleLocation;
+import com.example.cleancity.models.Signal;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +45,9 @@ public class Home extends AppCompatActivity {
         if (savedInstanceState == null){
             inflatePoubelleListFragment();
         }
+
+
+
     }
 
     private void getPoubellesLocation() {
@@ -156,6 +160,14 @@ public class Home extends AppCompatActivity {
             if(resultCode == 2000){
                 //parse in new object
                 Log.i("data","data returned");
+                Signal signal = (Signal) data.getExtras().getSerializable("identifiant");
+                Poubelle poubelle = new Poubelle(10,-1,-1,"","");
+                PoubelleLocation poubelleLocation = new PoubelleLocation(poubelle,signal.getLat(),signal.getLon());
+
+                mPoubelle.add(poubelle);
+                mPoubelleLocations.add(poubelleLocation);
+                inflatePoubelleListFragment();
+
             }
         }
     }

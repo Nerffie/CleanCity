@@ -1,29 +1,27 @@
 package com.example.cleancity;
 
-
+import android.content.Intent;
 import android.os.Bundle;
-
+import android.view.View;
 import android.view.WindowManager;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.fragment.app.FragmentTransaction;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.cleancity.models.Poubelle;
 import com.example.cleancity.models.PoubelleLocation;
 
-
-
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Date;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 public class Home extends AppCompatActivity {
     private TextView nbPoubelle;
     private ArrayList<PoubelleLocation> mPoubelleLocations = new ArrayList<>();
     private ArrayList<Poubelle> mPoubelle = new ArrayList<>();
     private boolean vider = false;
+    private ImageView bell;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,16 +32,13 @@ public class Home extends AppCompatActivity {
         }
         catch (NullPointerException e){}
 
-
-
-
-
         getPoubellesLocation();
         //doWork();
         Runnable runnable = new CountDownRunner();
         Thread myThread = null;
         myThread= new Thread(runnable);
         myThread.start();
+
         if (savedInstanceState == null){
             inflatePoubelleListFragment();
         }
@@ -51,16 +46,14 @@ public class Home extends AppCompatActivity {
 
     private void getPoubellesLocation() {
 
-        Poubelle p1 = new Poubelle(1,20,50,"1","Rien à signaler");
-        Poubelle p2 = new Poubelle(2,21,85,"2","A VIDER");
-        Poubelle p3 = new Poubelle(3,22,90,"3","A VIDER");
-        Poubelle p4 = new Poubelle(4,15,20,"4","Rien à signaler");
-        Poubelle p5 = new Poubelle(5,10,10,"5","Rien à signaler");
-        Poubelle p6 = new Poubelle(6,18,30,"6","Rien à signaler");
-        Poubelle p7 = new Poubelle(7,30,89,"7","A VIDER");
-        Poubelle p8 = new Poubelle(8,14,24,"8","Rien à signaler");
-        Poubelle p9 = new Poubelle(9,20,70,"9","Rien à signaler");
-
+        Poubelle p1 = new Poubelle(1,20,50,"1","Moitié");
+        Poubelle p2 = new Poubelle(2,21,85,"2","Pleine");
+        Poubelle p3 = new Poubelle(3,22,90,"3","Pleine");
+        Poubelle p4 = new Poubelle(4,15,20,"4","Léger");
+        Poubelle p5 = new Poubelle(5,10,10,"5","Léger");
+        Poubelle p6 = new Poubelle(6,18,30,"6","Léger");
+        Poubelle p7 = new Poubelle(7,30,89,"7","Pleine");
+        Poubelle p8 = new Poubelle(8,14,24,"8","Léger");
         PoubelleLocation pl1 = new PoubelleLocation(p1,45.774811, 3.079328);
         PoubelleLocation pl2 = new PoubelleLocation(p2,45.772746, 3.082836);
         PoubelleLocation pl3 = new PoubelleLocation(p3,45.771433, 3.076801);
@@ -69,8 +62,6 @@ public class Home extends AppCompatActivity {
         PoubelleLocation pl6 = new PoubelleLocation(p6,45.771984, 3.090157);
         PoubelleLocation pl7 = new PoubelleLocation(p7,45.765695, 3.089017);
         PoubelleLocation pl8 = new PoubelleLocation(p8,45.767077, 3.097808);
-        PoubelleLocation pl9 = new PoubelleLocation(p9,45.75999,3.080000);
-
 
 
         mPoubelle.add(p1);
@@ -81,7 +72,6 @@ public class Home extends AppCompatActivity {
         mPoubelle.add(p6);
         mPoubelle.add(p7);
         mPoubelle.add(p8);
-        mPoubelle.add(p9);
         mPoubelleLocations.add(pl1);
         mPoubelleLocations.add(pl2);
         mPoubelleLocations.add(pl3);
@@ -90,8 +80,6 @@ public class Home extends AppCompatActivity {
         mPoubelleLocations.add(pl6);
         mPoubelleLocations.add(pl7);
         mPoubelleLocations.add(pl8);
-        mPoubelleLocations.add(pl9);
-
 
 
     }
@@ -117,6 +105,15 @@ public class Home extends AppCompatActivity {
         runOnUiThread(new Runnable() {
               public void run() {
                   try {
+                      bell = findViewById(R.id.bell);
+                      bell.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View view) {
+                              Intent intent = new Intent(getApplicationContext(),BellActivity.class);
+                              startActivity(intent);
+                          }
+                      });
+
                       nbPoubelle = (TextView) findViewById(R.id.nbPoubelle);
                       String str = "Poubelle : "+mPoubelle.size();
                       nbPoubelle.setText(str);

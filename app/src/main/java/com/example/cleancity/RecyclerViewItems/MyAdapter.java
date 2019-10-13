@@ -74,16 +74,37 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolderItem> {
                 @Override
                 public void onClick(final View view) {
                     //do somthing
-                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setMessage(
-                            "Voulez vous ajouter le signal á la carte.")
-                            .setCancelable(true)
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    LayoutInflater li =LayoutInflater.from(view.getContext());
+                    View promptsView = li.inflate(R.layout.info_dialog, null);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+                    alertDialogBuilder.setView(promptsView);
+
+                    //link the references
+                    TextView titreSignal = promptsView.findViewById(R.id.titresignal);
+                    TextView descriptionSignal = promptsView.findViewById(R.id.descriptionsignal);
+                    ImageView imageSignal = promptsView.findViewById(R.id.imagesignal);
+
+                    titreSignal.setText(signal.getType());
+                    descriptionSignal.setText(signal.getDesc());
+
+                    int id= 0;
+                    try {
+                        id = R.drawable.class.getField(signal.getPhoto()).getInt(null);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+                    imageSignal.setImageResource(id);
+
+                    alertDialogBuilder.setCancelable(true)
                             .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                                 public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                                     Intent data = new Intent();
                                     data.putExtra("identifiant",signal);
                                     activity.setResult(2000,data);
-                                    activity.finish();
+                                    activity.onBackPressed();
                                 }
                             })
                             .setNegativeButton("Non", new DialogInterface.OnClickListener() {
@@ -91,7 +112,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolderItem> {
                                     dialog.cancel();
                                 }
                             });
-                    final AlertDialog alert = builder.create();
+                    final AlertDialog alert = alertDialogBuilder.create();
                     alert.show();
                 }
             });
